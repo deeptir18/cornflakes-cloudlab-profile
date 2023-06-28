@@ -69,7 +69,7 @@ link_0.addInterface(iface0)
 link_0.addInterface(iface1)
 link_0.addInterface(iface2)
 
-nodes = [node_cornflakes1, node_cornflakes2, node_cornflakes3]
+nodes = [node_cornflakes0, node_cornflakes1, node_cornflakes2]
 for node in nodes:
     ## install mount point && generate ssh keys
     node.addService(pg.Execute(shell="bash",
