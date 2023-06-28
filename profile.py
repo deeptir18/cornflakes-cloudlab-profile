@@ -75,25 +75,20 @@ for node in nodes:
     node.addService(pg.Execute(shell="bash", command="/local/repository/mount.sh")
 
     ## run ubuntu (apt-get) installs and python installs
-    node.addService(pg.Execute(shell="bash",
-        command="/local/repository/install-dependencies.sh")
+    node.addService(pg.Execute(shell="bash", command="/local/repository/install-dependencies.sh")
 
     ## install Rust
-    node.addService(pg.Execute(shell="bash",
-        command="/local/repository/install-rust.sh")
+    node.addService(pg.Execute(shell="bash", command="/local/repository/install-rust.sh")
 
     ## install graphing utilities
-    node.addService(pg.Execute(shell="bash",
-        command="/local/repository/install-R.sh"))
+    node.addService(pg.Execute(shell="bash", command="/local/repository/install-R.sh"))
 
     ## download and install protobuf, flatbuffers, capnproto
-    node.addService(pg.Execute(shell="bash",
-        command="PRIMARY=y /local/repository/install-libraries.sh /mydata/packages"))
+    node.addService(pg.Execute(shell="bash", command="PRIMARY=y /local/repository/install-libraries.sh /mydata/packages"))
 
     ## download mellanox drivers
     ## TODO: install mellanox drivers
-    node.addService(pg.Execute(shell="bash",
-        command="/local/repository/install-mlx5.sh /mydata/packages"))
+    node.addService(pg.Execute(shell="bash", command="/local/repository/install-mlx5.sh /mydata/packages"))
 
 # Print the RSpec to the enclosing page.
 pc.printRequestRSpec(request)
