@@ -60,9 +60,13 @@ iface2 = node_cornflakes2.addInterface('interface-2', pg.IPv4Address('192.168.1.
 
 # Link link-0
 link_0 = request.LAN('link-0')
-link_0.setNoInterSwitchLinks()
+if params.sameSwitch:
+    link_0.setNoInterSwitchLinks()
 link_0.Site('undefined')
-link_0.bandwidth = 100000000
+if params.phystype == "c6525-25g":
+    link_0.bandwidth = 25000000
+else:
+    link_0.bandwidth = 100000000
 link_0.addComponentManager('urn:publicid:IDN+utah.cloudlab.us+authority+cm')
 link_0.addInterface(iface0)
 link_0.addInterface(iface1)
