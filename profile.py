@@ -27,7 +27,7 @@ pc.defineParameter("phystype",
                     "Physical Node Type",
                     portal.ParameterType.STRING,
                     "c6525-100g", 
-                    legalValues=["c6525-100g", "d6515"]
+                    legalValues=["c6525-100g", "d6515", "c6525-25g"]
                     )
 
 pc.defineParameter("sameSwitch",  "No Interswitch Links", portal.ParameterType.BOOLEAN, False,
