@@ -3,7 +3,7 @@
 
 # Required for protobuf
 sudo apt install -y apt-transport-https curl gnupg
-curl -fsSL https://bazel.build/bazel-release.pub.gpg | gpg --dearmor > /usr/share/keyrings/bazel-archive-keyring.gpg
+curl -fsSL https://bazel.build/bazel-release.pub.gpg | sudo gpg --dearmor | sudo tee /usr/share/keyrings/bazel-archive-keyring.gpg >/dev/null
 echo "deb [arch=amd64 signed-by=/usr/share/keyrings/bazel-archive-keyring.gpg] https://storage.googleapis.com/bazel-apt stable jdk1.8" | sudo tee /etc/apt/sources.list.d/bazel.list
 sudo apt update && sudo apt install -y bazel
 
