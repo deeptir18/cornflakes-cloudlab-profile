@@ -104,7 +104,7 @@ for node in nodes:
     ## download mellanox drivers
     ## TODO: install mellanox drivers
     node.addService(pg.Execute(shell="bash",
-        command="/local/repository/install-mlx5.sh /mydata/packages"))
+        command="/local/repository/download-mlx5.sh /mydata/packages"))
 
 # Print the RSpec to the enclosing page.
 pc.printRequestRSpec(request)
