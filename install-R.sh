@@ -15,4 +15,5 @@ sudo apt-get install -y libfontconfig1-dev libudunits2-dev libxml2-dev
 sudo apt-get install -y libharfbuzz-dev libfribidi-dev
 sudo apt install -y libgeos-dev libgdal-dev
 
-Rscript $REPO_LOCATION/install-R-packages.R
+# run with sudo to write into the globally accessible location
+sudo Rscript $REPO_LOCATION/install-R-packages.R
