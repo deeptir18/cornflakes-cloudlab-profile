@@ -10,6 +10,8 @@ Wait for the profile instance to start, then click on the node in the topology a
 import geni.portal as portal
 # Import the ProtoGENI library.
 import geni.rspec.pg as pg
+# Emulab extensions.
+import geni.rspec.emulab as emulab 
 
 # Create a portal context.
 pc = portal.Context()
@@ -88,7 +90,7 @@ for node in nodes:
 
     ## install graphing utilities
     node.addService(pg.Execute(shell="bash", 
-        command="/local/repository/install-R.sh"))
+        command="REPO_LOCATION=/local/repository /local/repository/install-R.sh"))
 
     ## download and install protobuf, flatbuffers, capnproto
     node.addService(pg.Execute(shell="bash",
