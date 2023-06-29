@@ -70,8 +70,8 @@ nodes = [node_cornflakes0]
 
 # clients
 for i in range(params.numclients):
-    machine_name = f"cornflakes-client{i+1}"
-    iface_name = f"interface-{i+1}"
+    machine_name = "cornflakes-client{}".format(str(i+1))
+    iface_name = "interface-{}".format(str(i+1))
     node = request.RawPC(machine_name)
     node.hardware_type = params.phystype
     node.disk_image = ubuntu_image
