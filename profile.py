@@ -31,6 +31,11 @@ pc.defineParameter("phystype",
                     "c6525-100g", 
                     legalValues=["c6525-100g", "d6515", "c6525-25g"]
                     )
+pc.defineParameter("numclients",
+                    "Number of clients to spawn (max 5)",
+                    portal.ParameterType.INTEGER,
+                    1, 
+                    )
 
 pc.defineParameter("sameSwitch",  "No Interswitch Links", portal.ParameterType.BOOLEAN, False,
                     advanced=True,
@@ -42,25 +47,8 @@ pc.defineParameter("sameSwitch",  "No Interswitch Links", portal.ParameterType.B
 params = pc.bindParameters()
 pc.verifyParameters()
 
-# Node cornflakes0
-node_cornflakes0 = request.RawPC('cornflakes0')
-node_cornflakes0.hardware_type = params.phystype
-node_cornflakes0.disk_image = ubuntu_image
-iface0 = node_cornflakes0.addInterface('interface-0', pg.IPv4Address('192.168.1.1','255.255.255.0'))
-
-# Node cornflakes1
-node_cornflakes1 = request.RawPC('cornflakes1')
-node_cornflakes1.hardware_type = params.phystype
-node_cornflakes1.disk_image = ubuntu_image
-iface1 = node_cornflakes1.addInterface('interface-1', pg.IPv4Address('192.168.1.2','255.255.255.0'))
-
-# Node cornflakes2
-node_cornflakes2 = request.RawPC('cornflakes2')
-node_cornflakes2.hardware_type = params.phystype
-node_cornflakes2.disk_image = ubuntu_image
-iface2 = node_cornflakes2.addInterface('interface-2', pg.IPv4Address('192.168.1.3','255.255.255.0'))
-
-# Link link-0
+ip_addrs = ['192.168.1.1', '192.168.1.2', '192.168.1.3', '192.168.1.4', '192.168.1.5', '192.168.1.6']
+# link
 link_0 = request.LAN('link-0')
 if params.sameSwitch:
     link_0.setNoInterSwitchLinks()
@@ -70,11 +58,25 @@ if params.phystype == "c6525-25g":
 else:
     link_0.bandwidth = 100000000
 link_0.addComponentManager('urn:publicid:IDN+utah.cloudlab.us+authority+cm')
-link_0.addInterface(iface0)
-link_0.addInterface(iface1)
-link_0.addInterface(iface2)
 
-nodes = [node_cornflakes0, node_cornflakes1, node_cornflakes2]
+# Node cornflakes0 (server)
+node_cornflakes0 = request.RawPC('cornflakes-server')
+node_cornflakes0.hardware_type = params.phystype
+node_cornflakes0.disk_image = ubuntu_image
+iface0 = node_cornflakes0.addInterface('interface-0', pg.IPv4Address(ip_addrs[0],'255.255.255.0'))
+link0.add(iface0)
+
+nodes = [node_cornflakes0]
+
+# clients
+for i in range(params.numclients):
+    node = request.RawPC(f'cornflakes-client{i+1}')
+    node.hardware_type = params.phystype
+    node.disk_image = ubuntu_image
+    iface = node_cornflakes1.addInterface(f'interface-{i+1}', pg.IPv4Address(ip_addrs[i+1],'255.255.255.0'))
+    link0.addInterface(iface)
+    nodes.append(node)
+
 for node in nodes:
     ## install mount point && generate ssh keys
     node.addService(pg.Execute(shell="bash",
