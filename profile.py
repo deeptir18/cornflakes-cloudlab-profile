@@ -64,7 +64,7 @@ node_cornflakes0 = request.RawPC('cornflakes-server')
 node_cornflakes0.hardware_type = params.phystype
 node_cornflakes0.disk_image = ubuntu_image
 iface0 = node_cornflakes0.addInterface('interface-0', pg.IPv4Address(ip_addrs[0],'255.255.255.0'))
-link_0.add(iface0)
+link_0.addInterface(iface0)
 
 nodes = [node_cornflakes0]
 
