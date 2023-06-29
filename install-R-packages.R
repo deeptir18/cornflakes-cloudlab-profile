@@ -6,4 +6,3 @@ install.packages("extrafont", dependencies = TRUE, repos = "http://cran.rstudio.
 install.packages("sysfonts", dependencies = TRUE, repos = "http://cran.rstudio.com/")
 install.packages("showtext", dependencies = TRUE, repos = "http://cran.rstudio.com/")
 install.packages("viridis", dependencies = TRUE, repos = "http://cran.rstudio.com/")
-

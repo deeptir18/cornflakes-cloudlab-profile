@@ -95,7 +95,7 @@ for node in nodes:
 
     ## download and install protobuf, flatbuffers, capnproto
     node.addService(pg.Execute(shell="bash",
-        command="PRIMARY=y /local/repository/install-libraries.sh /mydata/packages"))
+        command="/local/repository/install-libraries.sh /mydata/packages"))
 
     ## download mellanox drivers
     ## TODO: install mellanox drivers
