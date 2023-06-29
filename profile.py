@@ -70,10 +70,12 @@ nodes = [node_cornflakes0]
 
 # clients
 for i in range(params.numclients):
-    node = request.RawPC(f"cornflakes-client{i+1}")
+    machine_name = f"cornflakes-client{i+1}"
+    iface_name = f"interface-{i+1}"
+    node = request.RawPC(machine_name)
     node.hardware_type = params.phystype
     node.disk_image = ubuntu_image
-    iface = node_cornflakes1.addInterface(f"interface-{i+1}", pg.IPv4Address(ip_addrs[i+1],'255.255.255.0'))
+    iface = node_cornflakes1.addInterface(iface_name, pg.IPv4Address(ip_addrs[i+1],'255.255.255.0'))
     link0.addInterface(iface)
     nodes.append(node)
 
