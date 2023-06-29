@@ -26,10 +26,3 @@ sudo pip3 install pyopenssl
 sudo pip3 install pyopenssl --upgrade
 sudo pip3 install python-gssapi
 sudo pip3 install meson
-pip3 install colorama gitpython tqdm parse
-pip3 install setuptools_rust
-pip3 install fabric==2.6.0 # and try this again
-pip3 install pyelftools
-pip3 install numpy pandas
-pip3 install agenda toml
-pip3 install result
