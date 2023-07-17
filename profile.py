@@ -135,10 +135,13 @@ for node in nodes:
     node.addService(pg.Execute(shell="bash",
         command="/local/repository/install-dependencies.sh"))
 
-    ## TODO: figure out how to install rust
-    ## for just a single user
-    #node.addService(pg.Execute(shell="bash",
-    #    command="/local/repository/install-rust.sh"))
+    ## install rust
+    node.addService(pg.Execute(shell="bash",
+        command="/local/repository/install-rust.sh"))
+
+    ## install local python depedencies
+    node.addService(pg.Execute(shell="bash",
+        command="/local/repository/install-rust.sh"))
 
     ## install graphing utilities
     node.addService(pg.Execute(shell="bash", 
@@ -148,7 +151,7 @@ for node in nodes:
     node.addService(pg.Execute(shell="bash",
         command="/local/repository/install-libraries.sh /mydata/packages"))
     
-    ## setup config file
+    ## TODO: setup config file
 
     ## download mellanox drivers
     ## TODO: install mellanox drivers
