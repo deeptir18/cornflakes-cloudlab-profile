@@ -13,11 +13,12 @@ fi
 
 cd /mydata/$GENIUSER/
 sudo su - $GENIUSER -c "git clone https://github.com/deeptir18/cornflakes-scripts.git --recursive /mydata/$GENIUSER/cornflakes-scripts"
-cd /mydata/$GENIUSER/cornflakes-scripts/cornflakes
-sudo su - $GENIUSER -c "cd /mydata/$GENIUSER/cornflakes-scripts/cornflakes && make submodules CONFIG_MLX5=y"
-sudo su - $GENIUSER -c "cd /mydata/$GENIUSER/cornflakes-scripts/cornflakes && make kv CONFIG_MLX5=y CONFIG_DPDK=y"
-sudo su - $GENIUSER -c "cd /mydata/$GENIUSER/cornflakes-scripts/cornflakes && make redis CONFIG_MLX5=y CONFIG_DPDK=y"
-sudo su - $GENIUSER -c "cd /mydata/$GENIUSER/cornflakes-scripts/cornflakes && make ds-echo CONFIG_MLX5=y CONFIG_DPDK=y"
+sudo su - $GENIUSER -c "git clone https://github.com/deeptir18/cornflakes.git --recursive /mydata/$GENIUSER/cornflakes"
+cd /mydata/$GENIUSER/cornflakes
+sudo su - $GENIUSER -c "cd /mydata/$GENIUSER/cornflakes && make submodules CONFIG_MLX5=y"
+sudo su - $GENIUSER -c "cd /mydata/$GENIUSER/cornflakes && make kv CONFIG_MLX5=y CONFIG_DPDK=y"
+sudo su - $GENIUSER -c "cd /mydata/$GENIUSER/cornflakes && make redis CONFIG_MLX5=y CONFIG_DPDK=y"
+sudo su - $GENIUSER -c "cd /mydata/$GENIUSER/cornflakes && make ds-echo CONFIG_MLX5=y CONFIG_DPDK=y"
 
 
 
