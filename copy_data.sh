@@ -12,6 +12,6 @@ fi
 
 sudo mkdir -p /mydata/$GENIUSER
 sudo chown $GENIUSER: /mydata/$GENIUSER
-sudo su - $GENIUSER -c 'mkdir /mydata/$GENIUSER/data'
-sudo su - $GENIUSER -c 'cp -r /nfs/expdata/* /mydata/$GENIUSER/data'
+sudo su - $GENIUSER -c "mkdir /mydata/$GENIUSER/data"
+sudo su - $GENIUSER -c "cp -r /nfs/expdata/* /mydata/$GENIUSER/data"
 
