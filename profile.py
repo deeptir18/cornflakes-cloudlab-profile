@@ -127,6 +127,8 @@ for node in nodes:
 for node in nodes:
     ## install mount point && generate ssh keys
     node.addService(pg.Execute(shell="bash",
+        command="/local/repository/ssh.sh"))
+    node.addService(pg.Execute(shell="bash",
         command="/local/repository/mount.sh"))
 
     ## run ubuntu (apt-get) installs and python installs
