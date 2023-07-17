@@ -10,13 +10,14 @@ if [ $? -ne 0 ]; then
 echo "ERROR: could not run geni-get user_urn!"
 exit 1
 fi
-if [ $USER != $GENIUSER ]; then
-sudo -u $GENIUSER $SCRIPTNAME
-exit $?
-fi
 
-cd /mydata/$USER/
-git clone https://github.com/deeptir18/cornflakes-scripts.git --recursive
-cd cornflakes-scripts
+cd /mydata/$GENIUSER/
+sudo su - $GENIUSER -c 'git clone https://github.com/deeptir18/cornflakes-scripts.git --recursive'
+sudo su - $GENIUSER -c 'cd cornflakes-scripts/cornflakes'
+sudo su - $GENIUSER -c 'make submodules CONFIG_MLX5=y'
+sudo su - $GENIUSER -c 'make kv CONFIG_MLX5=y CONFIG_DPDK=y'
+sudo su - $GENIUSER -c 'make redis CONFIG_MLX5=y CONFIG_DPDK=y'
+sudo su - $GENIUSER -c 'make ds-echo CONFIG_MLX5=y CONFIG_DPDK=y'
+
 
 
