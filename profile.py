@@ -153,11 +153,6 @@ for node in nodes:
     
     ## TODO: setup config file
 
-    ## download mellanox drivers
-    ## TODO: install mellanox drivers
-    node.addService(pg.Execute(shell="bash",
-        command="/local/repository/download-mlx5.sh /mydata/packages"))
-
     ## copy data from NFS to local repository
     node.addService(pg.Execute(shell="bash",
         command="/local/repository/copy_data.sh"))
@@ -165,6 +160,11 @@ for node in nodes:
     ## clone cornflakes
     node.addService(pg.Execute(shell="bash",
         command="/local/repository/clone_cornflakes.sh"))
+
+    ## download mellanox drivers and reboot the machine
+    ## TODO: install mellanox drivers
+    node.addService(pg.Execute(shell="bash",
+        command="/local/repository/download-mlx5.sh /mydata/packages"))
 
 
 # Print the RSpec to the enclosing page.
