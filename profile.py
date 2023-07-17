@@ -147,11 +147,22 @@ for node in nodes:
     ## download and install protobuf, flatbuffers, capnproto
     node.addService(pg.Execute(shell="bash",
         command="/local/repository/install-libraries.sh /mydata/packages"))
+    
+    ## setup config file
 
     ## download mellanox drivers
     ## TODO: install mellanox drivers
     node.addService(pg.Execute(shell="bash",
         command="/local/repository/download-mlx5.sh /mydata/packages"))
+
+    ## copy data from NFS to local repository
+    node.addService(pg.Execute(shell="bash",
+        command="/local/repository/copy_data.sh"))
+
+    ## clone cornflakes
+    node.addService(pg.Execute(shell="bash",
+        command="/local/repository/clone_cornflakes.sh"))
+
 
 # Print the RSpec to the enclosing page.
 pc.printRequestRSpec(request)
