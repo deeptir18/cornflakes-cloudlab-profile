@@ -20,15 +20,20 @@ pc = portal.Context()
 request = pc.makeRequestRSpec()
 ubuntu_image = 'urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU20-64-STD'
 
-## TODO: add loaded dataset containing data to be accessed on /experimentdata/
-#pc.defineParameter("dataset", "Your dataset URN",
-#                   portal.ParameterType.STRING,
-#                   "urn:publicid:IDN+emulab.net:portalprofiles+ltdataset+DemoDataset")
+pc.defineParameter("dataset", "Your dataset URN",
+                   portal.ParameterType.STRING,
+                   "urn:publicid:IDN+utah.cloudlab.us:demeter-pg0+ltdataset+cornflakes-data")
 
 pc.defineParameter("phystype",
                     "Physical Node Type",
                     portal.ParameterType.STRING,
                     "c6525-100g", 
+                    legalValues=["c6525-100g", "d6515", "c6525-25g"]
+                    )
+pc.defineParameter("nfsphystype",
+                    "Physical Node Type for NFS server",
+                    portal.ParameterType.STRING,
+                    "c6525-25g", 
                     legalValues=["c6525-100g", "d6515", "c6525-25g"]
                     )
 pc.defineParameter("numclients",
@@ -47,6 +52,37 @@ pc.defineParameter("sameSwitch",  "No Interswitch Links", portal.ParameterType.B
 params = pc.bindParameters()
 pc.verifyParameters()
 
+# NFS network
+# Do not change these unless you change the setup scripts too.
+nfsServerName = "nfs"
+nfsLanName    = "nfsLan"
+nfsDirectory  = "/nfs"
+nfsLan = request.LAN(nfsLanName)
+nfsLan.best_effort       = True
+nfsLan.vlan_tagging      = True
+nfsLan.link_multiplexing = True
+
+## setup nfs server
+nfsServer = request.RawPC(nfsServerName)
+nfsServer.disk_image = ubuntu_image
+nfsServer.hardware_type = params.nfsphystype
+
+# Attach server to lan.
+nfsLan.addInterface(nfsServer.addInterface())
+# Initialization script for the server nfs
+nfsServer.addService(pg.Execute(shell="sh", command="sudo /bin/bash /local/repository/nfs-server.sh"))
+
+# Link between the nfsServer and the ISCSI device that holds the dataset
+dslink = request.Link("dslink")
+dslink.addInterface(dsnode.interface)
+dslink.addInterface(nfsServer.addInterface())
+# Special attributes for this link that we must use.
+dslink.best_effort = True
+dslink.vlan_tagging = True
+dslink.link_multiplexing = True
+
+
+## Setup cornflakes nodes
 ip_addrs = ['192.168.1.1', '192.168.1.2', '192.168.1.3', '192.168.1.4', '192.168.1.5', '192.168.1.6']
 # link
 link_0 = request.LAN('link-0')
@@ -79,6 +115,12 @@ for i in range(params.numclients):
     link_0.addInterface(iface)
     nodes.append(node)
 
+for node in nodes:
+    ## do NFS installation
+    nfsLan.addInterface(node.addInterface())
+    # Initialization script for the clients
+    node.addService(pg.Execute(shell="sh", command="sudo /bin/bash /local/repository/nfs-client.sh"))
+    
 for node in nodes:
     ## install mount point && generate ssh keys
     node.addService(pg.Execute(shell="bash",
