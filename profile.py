@@ -51,7 +51,8 @@ pc.verifyParameters()
 fsnode = request.RemoteBlockstore("fsnode", "/nfs")
 # This URN is displayed in the web interface for your dataset.
 fsnode.dataset = params.dataset
-fsnode.rwclone = True # each clone is writeable
+fsnode.rwclone = False # each clone is writeable
+fsnode.readonly = True
 fslink = request.Link("fslink")
 # add one side of the interface
 fslink.addInterface(fsnode.interface)
