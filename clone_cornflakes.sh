@@ -11,6 +11,8 @@ echo "ERROR: could not run geni-get user_urn!"
 exit 1
 fi
 
+sudo mkdir -p /mydata/$GENIUSER
+sudo chown $GENIUSER: /mydata/$GENIUSER
 cd /mydata/$GENIUSER/
 sudo su - $GENIUSER -c "git clone https://github.com/deeptir18/cornflakes-scripts.git --recursive /mydata/$GENIUSER/cornflakes-scripts"
 sudo su - $GENIUSER -c "git clone https://github.com/deeptir18/cornflakes.git --recursive /mydata/$GENIUSER/cornflakes"

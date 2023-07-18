@@ -48,18 +48,18 @@ pc.verifyParameters()
 
 # Long term dataset
 # The remote file system is represented by special node.
-fsnode = request.RemoteBlockstore("fsnode", "/nfs")
+# fsnode = request.RemoteBlockstore("fsnode", "/nfs")
 # This URN is displayed in the web interface for your dataset.
-fsnode.dataset = params.dataset
-fsnode.rwclone = False # each clone is writeable
-fsnode.readonly = True
-fslink = request.Link("fslink")
+# fsnode.dataset = params.dataset
+# fsnode.rwclone = False # each clone is writeable
+# fsnode.readonly = True
+# fslink = request.Link("fslink")
 # add one side of the interface
-fslink.addInterface(fsnode.interface)
+# fslink.addInterface(fsnode.interface)
 # Special attributes for this link that we must use.
-fslink.best_effort = True
-fslink.vlan_tagging = True
-fslink.link_multiplexing = True
+# fslink.best_effort = True
+# fslink.vlan_tagging = True
+# fslink.link_multiplexing = True
 
 ## Setup cornflakes nodes
 ip_addrs = ['192.168.1.1', '192.168.1.2', '192.168.1.3', '192.168.1.4', '192.168.1.5', '192.168.1.6']
@@ -70,7 +70,7 @@ link_0.vlan_tagging = True
 link_0.link_multiplexing = True
 if params.sameSwitch:
     link_0.setNoInterSwitchLinks()
-    fslink.setNoInterSwitchLinks()
+    # fslink.setNoInterSwitchLinks()
 link_0.Site('undefined')
 if params.phystype == "c6525-25g":
     link_0.bandwidth = 25000000
@@ -84,7 +84,7 @@ node_cornflakes0.hardware_type = params.phystype
 node_cornflakes0.disk_image = ubuntu_image
 iface0 = node_cornflakes0.addInterface('interface-0', pg.IPv4Address(ip_addrs[0],'255.255.255.0'))
 link_0.addInterface(iface0)
-fslink.addInterface(node_cornflakes0.addInterface())
+# fslink.addInterface(node_cornflakes0.addInterface())
 
 nodes = [node_cornflakes0]
 
@@ -97,7 +97,7 @@ for i in range(params.numclients):
     node.disk_image = ubuntu_image
     iface = node.addInterface(iface_name, pg.IPv4Address(ip_addrs[i+1],'255.255.255.0'))
     link_0.addInterface(iface)
-    fslink.addInterface(node.addInterface())
+    # fslink.addInterface(node.addInterface())
     nodes.append(node)
 
 for node in nodes:
