@@ -30,12 +30,6 @@ pc.defineParameter("phystype",
                     "c6525-100g", 
                     legalValues=["c6525-100g", "d6515", "c6525-25g"]
                     )
-pc.defineParameter("nfsphystype",
-                    "Physical Node Type for NFS server",
-                    portal.ParameterType.STRING,
-                    "c6525-25g", 
-                    legalValues=["c6525-100g", "d6515", "c6525-25g"]
-                    )
 pc.defineParameter("numclients",
                     "Number of clients to spawn (max 5)",
                     portal.ParameterType.INTEGER,
@@ -52,38 +46,19 @@ pc.defineParameter("sameSwitch",  "No Interswitch Links", portal.ParameterType.B
 params = pc.bindParameters()
 pc.verifyParameters()
 
-# NFS network
-# Do not change these unless you change the setup scripts too.
-nfsServerName = "nfs"
-nfsLanName    = "nfsLan"
-nfsDirectory  = "/nfs"
-nfsLan = request.LAN(nfsLanName)
-nfsLan.best_effort       = True
-nfsLan.vlan_tagging      = True
-nfsLan.link_multiplexing = True
-
-## setup nfs server
-nfsServer = request.RawPC(nfsServerName)
-nfsServer.disk_image = ubuntu_image
-nfsServer.hardware_type = params.nfsphystype
-
-# Attach server to lan.
-nfsLan.addInterface(nfsServer.addInterface())
-# Initialization script for the server nfs
-nfsServer.addService(pg.Execute(shell="sh", command="sudo /bin/bash /local/repository/nfs-server.sh"))
-
-# Special node that represents the ISCSI device where the dataset resides
-dsnode = request.RemoteBlockstore("dsnode", nfsDirectory)
-dsnode.dataset = params.dataset
-# Link between the nfsServer and the ISCSI device that holds the dataset
-dslink = request.Link("dslink")
-dslink.addInterface(dsnode.interface)
-dslink.addInterface(nfsServer.addInterface())
+# Long term dataset
+# The remote file system is represented by special node.
+fsnode = request.RemoteBlockstore("fsnode", "/nfs")
+# This URN is displayed in the web interface for your dataset.
+fsnode.dataset = params.dataset
+fsnode.rwclone = True # each clone is writeable
+fslink = request.Link("fslink")
+# add one side of the interface
+fslink.addInterface(fsnode.interface)
 # Special attributes for this link that we must use.
-dslink.best_effort = True
-dslink.vlan_tagging = True
-dslink.link_multiplexing = True
-
+fslink.best_effort = True
+fslink.vlan_tagging = True
+# fslink.link_multiplexing = True
 
 ## Setup cornflakes nodes
 ip_addrs = ['192.168.1.1', '192.168.1.2', '192.168.1.3', '192.168.1.4', '192.168.1.5', '192.168.1.6']
@@ -104,6 +79,7 @@ node_cornflakes0.hardware_type = params.phystype
 node_cornflakes0.disk_image = ubuntu_image
 iface0 = node_cornflakes0.addInterface('interface-0', pg.IPv4Address(ip_addrs[0],'255.255.255.0'))
 link_0.addInterface(iface0)
+fslink.addInterface(node_cornflakes0.addInterface())
 
 nodes = [node_cornflakes0]
 
@@ -116,14 +92,9 @@ for i in range(params.numclients):
     node.disk_image = ubuntu_image
     iface = node.addInterface(iface_name, pg.IPv4Address(ip_addrs[i+1],'255.255.255.0'))
     link_0.addInterface(iface)
+    fslink.addInterface(node.addInterface())
     nodes.append(node)
 
-for node in nodes:
-    ## do NFS installation
-    nfsLan.addInterface(node.addInterface())
-    # Initialization script for the clients
-    node.addService(pg.Execute(shell="sh", command="sudo /bin/bash /local/repository/nfs-client.sh"))
-    
 for node in nodes:
     ## install mount point && generate ssh keys
     node.addService(pg.Execute(shell="bash",
