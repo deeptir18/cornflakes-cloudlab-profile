@@ -51,7 +51,7 @@ pc.verifyParameters()
 fsnode = request.RemoteBlockstore("fsnode", "/nfs")
 # This URN is displayed in the web interface for your dataset.
 fsnode.dataset = params.dataset
-fsnode.rwclone = False # each clone is writeable
+fsnode.rwclone = False
 fsnode.readonly = True
 fslink = request.Link("fslink")
 # add one side of the interface
@@ -59,18 +59,19 @@ fslink.addInterface(fsnode.interface)
 # Special attributes for this link that we must use.
 fslink.best_effort = True
 fslink.vlan_tagging = True
-fslink.link_multiplexing = True
+
+# fslink.link_multiplexing = True
 
 ## Setup cornflakes nodes
 ip_addrs = ['192.168.1.1', '192.168.1.2', '192.168.1.3', '192.168.1.4', '192.168.1.5', '192.168.1.6']
 # link
 link_0 = request.LAN('link-0')
-link_0.best_effort = True
-link_0.vlan_tagging = True
-link_0.link_multiplexing = True
+# link_0.best_effort = True
+# link_0.vlan_tagging = True
+# link_0.link_multiplexing = True
 if params.sameSwitch:
     link_0.setNoInterSwitchLinks()
-    fslink.setNoInterSwitchLinks()
+    # fslink.setNoInterSwitchLinks()
 link_0.Site('undefined')
 if params.phystype == "c6525-25g":
     link_0.bandwidth = 25000000
@@ -97,7 +98,6 @@ for i in range(params.numclients):
     node.disk_image = ubuntu_image
     iface = node.addInterface(iface_name, pg.IPv4Address(ip_addrs[i+1],'255.255.255.0'))
     link_0.addInterface(iface)
-    fslink.addInterface(node.addInterface())
     nodes.append(node)
 
 for node in nodes:
