@@ -51,8 +51,7 @@ pc.verifyParameters()
 fsnode = request.RemoteBlockstore("fsnode", "/nfs")
 # This URN is displayed in the web interface for your dataset.
 fsnode.dataset = params.dataset
-fsnode.rwclone = False # each clone is writeable
-fsnode.readonly = True
+fsnode.rwclone = True # each clone is writeable
 fslink = request.Link("fslink")
 # add one side of the interface
 fslink.addInterface(fsnode.interface)
@@ -80,7 +79,7 @@ node_cornflakes0.hardware_type = params.phystype
 node_cornflakes0.disk_image = ubuntu_image
 iface0 = node_cornflakes0.addInterface('interface-0', pg.IPv4Address(ip_addrs[0],'255.255.255.0'))
 link_0.addInterface(iface0)
-fslink.addInterface(iface0)
+fslink.addInterface(node_cornflakes0.addInterface())
 
 nodes = [node_cornflakes0]
 
@@ -93,7 +92,7 @@ for i in range(params.numclients):
     node.disk_image = ubuntu_image
     iface = node.addInterface(iface_name, pg.IPv4Address(ip_addrs[i+1],'255.255.255.0'))
     link_0.addInterface(iface)
-    fslink.addInterface(iface)
+    fslink.addInterface(node.addInterface())
     nodes.append(node)
 
 for node in nodes:
