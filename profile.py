@@ -65,9 +65,9 @@ pc.verifyParameters()
 ip_addrs = ['192.168.1.1', '192.168.1.2', '192.168.1.3', '192.168.1.4', '192.168.1.5', '192.168.1.6']
 # link
 link_0 = request.LAN('link-0')
-link_0.best_effort = True
-link_0.vlan_tagging = True
-link_0.link_multiplexing = True
+# link_0.best_effort = True
+# link_0.vlan_tagging = True
+# link_0.link_multiplexing = True
 if params.sameSwitch:
     link_0.setNoInterSwitchLinks()
     # fslink.setNoInterSwitchLinks()
@@ -120,8 +120,8 @@ for node in nodes:
         command="/local/repository/install-rust.sh"))
 
     ## install graphing utilities
-    node.addService(pg.Execute(shell="bash", 
-        command="REPO_LOCATION=/local/repository /local/repository/install-R.sh"))
+    # node.addService(pg.Execute(shell="bash", 
+    #    command="REPO_LOCATION=/local/repository /local/repository/install-R.sh"))
 
     ## download and install protobuf, flatbuffers, capnproto
     node.addService(pg.Execute(shell="bash",
