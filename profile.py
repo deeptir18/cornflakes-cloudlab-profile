@@ -117,6 +117,8 @@ for node in nodes:
 
     ## install local python depedencies
     node.addService(pg.Execute(shell="bash",
+        command="/local/repository/install-pip.sh"))
+    node.addService(pg.Execute(shell="bash",
         command="/local/repository/install-rust.sh"))
 
     ## install graphing utilities
@@ -133,14 +135,19 @@ for node in nodes:
     node.addService(pg.Execute(shell="bash",
         command="/local/repository/copy_data.sh"))
 
-    ## clone cornflakes
-    node.addService(pg.Execute(shell="bash",
-        command="/local/repository/clone_cornflakes.sh"))
-
-    ## download mellanox drivers and reboot the machine
-    ## TODO: install mellanox drivers
     node.addService(pg.Execute(shell="bash",
         command="/local/repository/download-mlx5.sh /mydata/packages"))
+
+    node.addService(pg.Execute(shell="bash",
+        command="/local/repository/install-mlx5.sh /mydata/packages"))
+
+    ## after this, user should reboot
+    
+    ## clone cornflakes
+    # node.addService(pg.Execute(shell="bash",
+    #    command="/local/repository/clone_cornflakes.sh"))
+
+    ## after this, user should install huge pages and set_freq
 
 
 # Print the RSpec to the enclosing page.
