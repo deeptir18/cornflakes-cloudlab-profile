@@ -59,14 +59,18 @@ fslink.addInterface(fsnode.interface)
 # Special attributes for this link that we must use.
 fslink.best_effort = True
 fslink.vlan_tagging = True
-# fslink.link_multiplexing = True
+fslink.link_multiplexing = True
 
 ## Setup cornflakes nodes
 ip_addrs = ['192.168.1.1', '192.168.1.2', '192.168.1.3', '192.168.1.4', '192.168.1.5', '192.168.1.6']
 # link
 link_0 = request.LAN('link-0')
+link_0.best_effort = True
+link_0.vlan_tagging = True
+link_0.link_multiplexing = True
 if params.sameSwitch:
     link_0.setNoInterSwitchLinks()
+    fslink.setNoInterSwitchLinks()
 link_0.Site('undefined')
 if params.phystype == "c6525-25g":
     link_0.bandwidth = 25000000
