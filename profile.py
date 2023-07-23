@@ -100,7 +100,12 @@ for i in range(params.numclients):
     link_0.addInterface(iface)
     nodes.append(node)
 
+ct = 0
 for node in nodes:
+    machine_name = "cornflakes-server"
+    if ct > 0:
+        machine_name = "cornflakes-client{}".format(str(ct+1))
+    ct += 1
     ## install mount point && generate ssh keys
     node.addService(pg.Execute(shell="bash",
         command="/local/repository/ssh.sh"))
@@ -141,13 +146,16 @@ for node in nodes:
     node.addService(pg.Execute(shell="bash",
         command="/local/repository/install-mlx5.sh /mydata/packages"))
 
+    node.addService(pg.Execute(shell="bash",
+        command="CLIENTS={} MACHINE={} /local/repository/generate-config.sh".format(params.numclients, machine_name))
+
     ## after this, user should reboot
     
     ## clone cornflakes
     # node.addService(pg.Execute(shell="bash",
     #    command="/local/repository/clone_cornflakes.sh"))
 
-    ## after this, user should install huge pages and set_freq
+    ## after this, user should install huge pages and set_freq and run ulimit
 
 
 # Print the RSpec to the enclosing page.
