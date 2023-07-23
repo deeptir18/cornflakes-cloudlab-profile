@@ -1,9 +1,14 @@
-"""This is a trivial example of a gitrepo-based profile; The profile source code and other software, documentation, etc. are stored in in a publicly accessible GIT repository (say, github.com). When you instantiate this profile, the repository is cloned to all of the nodes in your experiment, to `/local/repository`. 
+"""This is an example of a git-based profile to instantiate machines to work
+with the Cornflakes networking stack and serialization library. This repo
+itself will get cloned onto each machine at /local/repository.
 
-This particular profile is a simple example of using a single raw PC. It can be instantiated on any cluster; the node will boot the default operating system, which is typically a recent version of Ubuntu.
+This particular profile asks to choose between c6525-100g nodes, c6525-25g nodes
+and d6515 nodes; it spawns one server machine and a number of client machines,
+and installs all dependencies to run Cornflakes.
 
 Instructions:
-Wait for the profile instance to start, then click on the node in the topology and choose the `shell` menu item. 
+Once the Cloudlab UI indicates that the startup scripts have finished running,
+please power cycle the machines to load the new Mellanox drivers.
 """
 
 # Import the Portal object.
