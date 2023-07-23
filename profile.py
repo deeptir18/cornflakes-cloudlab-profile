@@ -139,6 +139,10 @@ for node in nodes:
     ## copy data from NFS to local repository
     node.addService(pg.Execute(shell="bash",
         command="/local/repository/copy_data.sh"))
+    
+    # increase number of open file descriptors
+    node.addService(pg.Execute(shell="bash",
+        command="/local/repository/ulimit.sh"))
 
     node.addService(pg.Execute(shell="bash",
         command="/local/repository/download-mlx5.sh /mydata/packages"))
