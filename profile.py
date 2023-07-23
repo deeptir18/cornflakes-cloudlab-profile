@@ -146,8 +146,9 @@ for node in nodes:
     node.addService(pg.Execute(shell="bash",
         command="/local/repository/install-mlx5.sh /mydata/packages"))
 
-    node.addService(pg.Execute(shell="bash",
-        command="CLIENTS={} MACHINE={} /local/repository/generate-config.sh".format(params.numclients, machine_name))
+    ## for some reason, bash-script won't execute so have people run manually
+    #node.addService(pg.Execute(shell="bash",
+    #    command="CLIENTS={} MACHINE={} /local/repository/generate-config.sh".format(params.numclients, machine_name))
 
     ## after this, user should reboot
     
