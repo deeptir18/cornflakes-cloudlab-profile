@@ -11,7 +11,6 @@ echo "ERROR: could not run geni-get user_urn!"
 exit 1
 fi
 
-sudo su - $GENIUSER -c 'mkdir /mydata/$GENIUSER/config'
-sudo su - $GENIUSER -c 'python3 generate-config.py --user $GENIUSER
---num_clients $CLIENTS --machine $MACHINE --outfile /mydata/$GENIUSER/config/cluster_config.yaml'
+sudo su - $GENIUSER -c "mkdir /mydata/$GENIUSER/config"
+sudo su - $GENIUSER -c "python3 generate-config.py --user $GENIUSER --num_clients $CLIENTS --machine $MACHINE --outfile /mydata/$GENIUSER/config/cluster_config.yaml"
 
