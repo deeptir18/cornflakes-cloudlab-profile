@@ -239,6 +239,7 @@ def build_yaml(args, conns, machine_map):
             "ip": f"{ip_address}",
             "mac": f"{mac_address}",
             "cornflakes_dir": f"/mydata/{args.user}/cornflakes",
+            "tmp_folder": f"/mydata/{args.user}/cornflakes_tmp",
             "config_file": f"/mydata/{args.user}/config/cluster_config.yaml"
         }
     yaml["lwip"] = {"known_hosts": lwip_known_hosts}
