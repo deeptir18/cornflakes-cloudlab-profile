@@ -249,8 +249,8 @@ def build_yaml(args, conns, machine_map):
     yaml["max_clients"] = args.num_clients
     yaml["user"] = args.user
     yaml["cornflakes_dir"] = f"/mydata/{args.user}/cornflakes"
-    yaml["port"] = "54321"
-    yaml["client_port"] = "12345"
+    yaml["port"] = 54321
+    yaml["client_port"] = 12345
     return yaml
 
 ## find our interface name and 
