@@ -177,8 +177,7 @@ def get_hostname():
 def main():
     parser = argparse.ArgumentParser(prog='generate config')
     parser.add_argument('--machine',
-                        help = "Either cornflakes-server, cornflakes-client1, or
-                        cornflakes-clientn",
+                        help = "Either cornflakes-server, cornflakes-client1, or cornflakes-clientn",
                         default = get_hostname())
     parser.add_argument('--num_clients',
             type=int,
