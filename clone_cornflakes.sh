@@ -12,6 +12,9 @@ exit 1
 fi
 
 cd /mydata/$GENIUSER/
+if [ -d "/mydata/$GENIUSER/cornflakes-scripts" ]; then rm -Rf /mydata/$GENIUSER/cornflakes-scripts; fi
+if [ -d "/mydata/$GENIUSER/cornflakes" ]; then rm -Rf /mydata/$GENIUSER/cornflakes; fi
+
 sudo su - $GENIUSER -c "git clone https://github.com/deeptir18/cornflakes-scripts.git --recursive /mydata/$GENIUSER/cornflakes-scripts"
 sudo su - $GENIUSER -c "git clone https://github.com/deeptir18/cornflakes.git --recursive /mydata/$GENIUSER/cornflakes"
 cd /mydata/$GENIUSER/cornflakes
@@ -22,7 +25,7 @@ sudo su - $GENIUSER -c "cd /mydata/$GENIUSER/cornflakes && make kv CONFIG_MLX5=y
 ## build redis (for comparing cornflakes in redis to redis serialization in redis)
 sudo su - $GENIUSER -c "cd /mydata/$GENIUSER/cornflakes && make redis CONFIG_MLX5=y CONFIG_DPDK=y"
 ## build 
-sudo su - $GENIUSER -c "cd /mydata/$GENIUSER/cornflakes && make ds-echo CONFIG_MLX5=y CONFIG_DPDK=y"
+##sudo su - $GENIUSER -c "cd /mydata/$GENIUSER/cornflakes && make ds-echo CONFIG_MLX5=y CONFIG_DPDK=y"
 
 
 

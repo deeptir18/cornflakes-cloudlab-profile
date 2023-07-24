@@ -228,7 +228,6 @@ def build_yaml(args, conns, machine_map):
         ## fill in info about this machine's interface
         if machine == args.machine:
             # run jumbo frames configuration
-            our_conn.run(f"sudo ip link set dev {interface} mtu 9000")
             yaml_dpdk["eal_init"] = [f"-c", f"0xff", f"-n", f"8", 
                                     f"-a",f"{pci_address}",f"--proc-type=auto"]
             yaml_dpdk["pci_addr"] = f"{pci_address}"
