@@ -227,6 +227,7 @@ def build_yaml(args, conns, machine_map):
                 f" mac: {mac_address}, pci: {pci_address}, port: {port}")
         ## fill in info about this machine's interface
         if machine == args.machine:
+            print("helloooooo")
             # run jumbo frames configuration
             yaml_dpdk["eal_init"] = [f"-c", f"0xff", f"-n", f"8", 
                                     f"-a",f"{pci_address}",f"--proc-type=auto"]
