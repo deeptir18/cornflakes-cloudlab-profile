@@ -9,6 +9,7 @@ import threading
 import time
 import toml
 import yaml as pyyaml
+import os
 SSH_IP_INTERFACE = "eno33np0"
 class ConnectionWrapper(Connection):
     def __init__(self, addr, user=None, port=22, key=None):
@@ -167,12 +168,18 @@ def check(ok, msg, addr, allowed=[]):
         thread_ok = False # something went wrong.
         raise Exception(f"{msg} on {addr}: {ok.exited} not in {allowed}")
 
+def get_hostname():
+    output = subprocess.Popen(f"hostname", shell=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE).communicate()
+    return output.split(".")[0]
 
 def main():
     parser = argparse.ArgumentParser(prog='generate config')
     parser.add_argument('--machine',
-                        required=True,
-                        help = "Either cornflakes-server, cornflakes-client1, or cornflakes-clientn")
+                        help = "Either cornflakes-server, cornflakes-client1, or
+                        cornflakes-clientn",
+                        default = get_hostname())
     parser.add_argument('--num_clients',
             type=int,
             default=1)
