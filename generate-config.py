@@ -172,7 +172,8 @@ def get_hostname():
     output = subprocess.Popen(f"hostname", shell=True,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE).communicate()
-    return output.split(".")[0]
+    print(output)
+    return output[0].strip().decode('utf-8').split(".")[0]
 
 def main():
     parser = argparse.ArgumentParser(prog='generate config')
